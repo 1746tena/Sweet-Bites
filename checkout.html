@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Checkout</title>
+
+<style>
+body{margin:0;font-family:Arial;background:#FFF5E4;text-align:center}
+
+input{
+display:block;
+margin:10px auto;
+padding:10px;
+width:250px;
+}
+
+.btn{
+background:#FF8FA3;
+color:white;
+padding:10px 20px;
+border:none;
+border-radius:20px;
+cursor:pointer;
+}
+</style>
+
+</head>
+
+<body>
+
+<h2>Checkout 💳</h2>
+
+<form id="form">
+<input id="name" placeholder="Name" required>
+<input id="email" placeholder="Email" required>
+<input id="address" placeholder="Address" required>
+
+<button class="btn">Place Order</button>
+</form>
+
+<script>
+document.getElementById("form").addEventListener("submit",function(e){
+e.preventDefault();
+
+let cart = localStorage.getItem("cart");
+
+let data = new FormData();
+data.append("name",name.value);
+data.append("email",email.value);
+data.append("address",address.value);
+data.append("cart",cart);
+
+fetch("backend/checkout.php",{method:"POST",body:data})
+.then(()=> {
+alert("Order Done 🎉");
+localStorage.removeItem("cart");
+});
+});
+</script>
+
+</body>
+</html>

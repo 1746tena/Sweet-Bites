@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin</title>
+</head>
+
+<body>
+
+<h2>Orders 👀</h2>
+<div id="orders"></div>
+
+<script>
+fetch("backend/getOrders.php")
+.then(res=>res.json())
+.then(data=>{
+let div=document.getElementById("orders");
+
+data.forEach(o=>{
+div.innerHTML += `
+<hr>
+<p>Name: ${o.name}</p>
+<p>Email: ${o.email}</p>
+<p>Address: ${o.address}</p>
+<p>Cart: ${o.cart}</p>
+`;
+});
+});
+</script>
+
+</body>
+</html>

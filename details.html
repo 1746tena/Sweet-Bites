@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Product Details</title>
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#FFF5E4;
+  text-align:center;
+  padding:20px
+}
+
+/* Navbar */
+.navbar{
+  background:#FF8FA3;
+  padding:15px;
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:20px
+}
+.navbar a{
+  color:white;
+  text-decoration:none;
+  margin:10px;
+  font-weight:bold
+}
+
+/* Card */
+.card{
+  background:white;
+  margin:20px auto;
+  padding:20px;
+  border-radius:15px;
+  width:300px;
+}
+.card img{
+  width:100%;
+  height:200px;
+  object-fit:cover;
+  border-radius:10px;
+  margin-bottom:10px
+}
+.price{
+  color:#FF8FA3;
+  font-weight:bold;
+  margin:10px 0
+}
+.btn{
+  background:#6B3E26;
+  color:white;
+  padding:10px 20px;
+  border:none;
+  border-radius:20px;
+  cursor:pointer;
+  margin-top:10px
+}
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+<div>Sweet Bites 🍰</div>
+<div>
+<a href="index.html">Home</a>
+<a href="product.html">Products</a>
+<a href="cart.html">Cart</a>
+</div>
+</div>
+
+<div id="product" class="card"></div>
+
+<script>
+
+// منتجات (بصور من النت عشان تشتغل فورًا)
+const products = {
+cake:{
+name:"Cake",
+price:150,
+img:"images/img1.jpg",
+ingredients:["Flour","Sugar","Eggs","Butter","Chocolate"]
+},
+donut:{
+name:"Donut",
+price:50,
+img:"images/img2.jpg",
+ingredients:["Flour","Sugar","Milk","Yeast","Sprinkles"]
+},
+cookies:{
+name:"Cookies",
+price:80,
+img:"images/img3.jpg",
+ingredients:["Flour","Sugar","Butter","Chocolate Chips"]
+},
+cupcake:{
+name:"Cupcake",
+price:60,
+img:"images/img5.jpg",
+ingredients:["Flour","Sugar","Eggs","Butter","Vanilla"]
+}
+};
+
+// قراءة المنتج من اللينك
+const urlParams = new URLSearchParams(window.location.search);
+const productKey = urlParams.get("product");
+const product = products[productKey];
+
+// عرض المنتج
+if(product){
+document.getElementById("product").innerHTML = `
+<h2>${product.name}</h2>
+<img src="${product.img}">
+<p class="price">${product.price} EGP</p>
+
+<h3>Ingredients:</h3>
+<ul>
+${product.ingredients.map(i=>`<li>${i}</li>`).join("")}
+</ul>
+
+<button class="btn" onclick="addToCart('${product.name}', ${product.price})">
+Add to Cart 🛒
+</button>
+`;
+}else{
+document.getElementById("product").innerHTML = "<h2>Product not found ❌</h2>";
+}
+
+// إضافة للكارت
+function addToCart(name,price){
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+let exist = cart.find(item => item.name === name);
+
+if(exist){
+exist.quantity++;
+}else{
+cart.push({name,price,quantity:1});
+}
+
+localStorage.setItem("cart", JSON.stringify(cart));
+alert("Added to cart 🛒");
+}
+
+</script>
+
+</body>
+</html>

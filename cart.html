@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Cart</title>
+<style>
+body { margin:0; font-family: Arial; background:#FFF5E4; text-align:center; }
+/* Navbar */
+.navbar { background:#FF8FA3; padding:15px; display:flex; justify-content:space-between; }
+.navbar a { color:white; text-decoration:none; margin:10px; font-weight:bold; }
+/* Cart Container */
+.container { display:flex; flex-wrap:wrap; justify-content:center; padding:20px 0; }
+/* Cart Card */
+.card { background:white; margin:15px; padding:15px; border-radius:20px; width:260px; text-align:center;
+  box-shadow:0 8px 20px rgba(0,0,0,0.15); transition: transform 0.3s, box-shadow 0.3s; }
+.card:hover { transform: translateY(-5px) scale(1.03); box-shadow: 0 15px 25px rgba(0,0,0,0.3); }
+.card img { width:100%; height:180px; object-fit:cover; border-radius:15px; margin-bottom:10px; }
+.price { color:#FF8FA3; font-weight:bold; margin:5px 0; font-size:16px; }
+.btn { background:#6B3E26; color:white; padding:10px 20px; border:none; border-radius:25px;
+  cursor:pointer; margin:5px 0; width:70%; font-weight:bold; transition:0.3s; }
+.btn:hover { opacity:0.8; transform: scale(1.05); }
+.quantity { width:50px; padding:5px; margin:5px; text-align:center; border-radius:10px; border:1px solid #ccc; }
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <div>Sweet Bites 🍰</div>
+  <div>
+    <a href="index.html">Home</a>
+    <a href="product.html">Products</a>
+  </div>
+</div>
+
+<h2>Your Cart 🛒</h2>
+<div id="cart" class="container"></div>
+<h3 id="total"></h3>
+<div>
+  <button class="btn" onclick="checkout()">Checkout</button>
+</div>
+
+<script>
+// بيانات تجريبية عشان الكارت يشتغل فورًا
+let cart = [
+  {name: "Cake", price: 150, quantity: 1},
+  {name: "Donut", price: 50, quantity: 2 },
+  {name: "Cookies", price: 70, quantity: 3 },
+  {name: "Cupcake", price: 40, quantity: 4 }
+];
+
+// مسار الصور مباشرة (ضع الصور في نفس مكان هذا الملف)
+const images = {
+  "Cake": "images/img1.jpg",
+  "Donut": "images/img2.jpg",
+  "Cookies": "images/img3.jpg",
+  "Cupcake": "images/img4.jpg"
+};
+
+// عرض الكارت
+function renderCart(){
+  let div = document.getElementById("cart");
+  div.innerHTML = "";
+  let total = 0;
+  if(cart.length === 0){
+    div.innerHTML = "<p>Your cart is empty 😢</p>";
+    document.getElementById("total").innerText = "";
+    return;
+  }
+  cart.forEach((item,i)=>{
+    total += item.price * item.quantity;
+    div.innerHTML += `
+      <div class="card">
+        <img src="${images[item.name]}" alt="${item.name}">
+        <h4>${item.name}</h4>
+        <p class="price">${item.price} EGP</p>
+        <div>Quantity: <input type="number" class="quantity" min="1" value="${item.quantity}" onchange="updateQuantity(${i},this.value)"></div>
+        <button class="btn" onclick="remove(${i})">Remove</button>
+      </div>
+    `;
+  });
+  document.getElementById("total").innerText = "Total: "+total+" EGP";
+}
+
+// تعديل الكمية
+function updateQuantity(i,val){
+  val = parseInt(val);
+  if(val < 1) val = 1;
+  cart[i].quantity = val;
+  renderCart();
+}
+
+// حذف المنتج
+function remove(i){
+  cart.splice(i,1);
+  renderCart();
+}
+
+// Checkout وهمي
+function checkout(){
+  alert("Thank you for your purchase! 🛒✨");
+  cart = [];
+  renderCart();
+}
+
+// Initial render
+renderCart();
+</script>
+
+</body>
+</html>

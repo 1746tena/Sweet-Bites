@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Products</title>
+
+<style>
+body{margin:0;font-family:Arial;background:#FFF5E4}
+
+/* Navbar */
+.navbar{background:#FF8FA3;padding:15px;display:flex;justify-content:space-between}
+.navbar a{color:white;text-decoration:none;margin:10px;font-weight:bold}
+
+/* Container */
+.container{display:flex;flex-wrap:wrap;justify-content:center}
+
+/* Card */
+.card{
+  background:white;
+  margin:15px;
+  padding:15px;
+  border-radius:15px;
+  width:220px;
+  text-align:center;
+  transition:.3s
+}
+.card img{
+  width:100%;
+  height:150px;
+  object-fit:cover;
+  border-radius:10px;
+  margin-bottom:10px
+}
+.card:hover{transform:scale(1.05)}
+.price{color:#FF8FA3;font-weight:bold;margin:10px 0}
+
+/* Buttons */
+.btn{
+  background:#6B3E26;
+  color:white;
+  padding:8px 15px;
+  border:none;
+  border-radius:20px;
+  cursor:pointer;
+  margin-top:5px;
+  transition:.3s
+}
+.btn:hover{opacity:.8}
+
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+<div>Sweet Bites 🍰</div>
+<div>
+<a href="index.html">Home</a>
+<a href="cart.html">Cart</a>
+</div>
+</div>
+
+<h2 style="text-align:center">Our Desserts 🍪</h2>
+
+<div class="container">
+
+<!-- Cake -->
+<div class="card">
+<img src="images/img1.jpg" alt="Cake">
+<h3>Cake</h3>
+<p class="price">150 EGP</p>
+<button class="btn" onclick="addToCart('Cake',150)">Add to Cart</button>
+<a href="details.html?product=cake"><button class="btn">Details</button></a>
+</div>
+
+<!-- Donut -->
+<div class="card">
+<img src="images/img2.jpg" alt="Donut">
+<h3>Donut</h3>
+<p class="price">50 EGP</p>
+<button class="btn" onclick="addToCart('Donut',50)">Add to Cart</button>
+<a href="details.html?product=donut"><button class="btn">Details</button></a>
+</div>
+
+<!-- Cookies -->
+<div class="card">
+<img src="images/img3.jpg" alt="Cookies">
+<h3>Cookies</h3>
+<p class="price">80 EGP</p>
+<button class="btn" onclick="addToCart('Cookies',80)">Add to Cart</button>
+<a href="details.html?product=cookies"><button class="btn">Details</button></a>
+</div>
+
+<!-- Cupcake -->
+<div class="card">
+<img src="images/img5.jpg" alt="Cupcake">
+<h3>Cupcake</h3>
+<p class="price">60 EGP</p>
+<button class="btn" onclick="addToCart('Cupcake',60)">Add to Cart</button>
+<a href="details.html?product=cupcake"><button class="btn">Details</button></a>
+</div>
+
+</div>
+
+<script>
+function addToCart(name,price){
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+let exist = cart.find(i=>i.name===name);
+
+if(exist){
+exist.quantity++;
+}else{
+cart.push({name,price,quantity:1});
+}
+
+localStorage.setItem("cart",JSON.stringify(cart));
+alert("Added 🛒");
+}
+</script>
+
+</body>
+</html>
